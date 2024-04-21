@@ -1,1 +1,6 @@
- 
+.grid-cell {
+  width: 25px; /* Defina a largura das células */
+  height: 25px; /* Defina a altura das células */
+  border: 1px solid #ccc; /* Adicione borda */
+  display: inline-block; /* As células devem ser elementos inline-block */
+} 
