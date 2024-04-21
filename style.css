@@ -1,6 +1,14 @@
+.grid-container {
+  width: 100%;
+  height: 100vh;  
+  display: flex;  
+  flex-wrap: wrap; 
+}
+
 .grid-cell {
-  width: 25px; /* Defina a largura das células */
-  height: 25px; /* Defina a altura das células */
-  border: 1px solid #ccc; /* Adicione borda */
-  display: inline-block; /* As células devem ser elementos inline-block */
+  width: 25px; 
+  height: 25px; 
+  box-sizing: border-box;
+  border: 1px solid #ccc; 
+  display: inline-block;
 } 
