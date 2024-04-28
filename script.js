@@ -1,13 +1,13 @@
 const gridContainer = document.getElementById('grid-container'); 
-const gridButton = document.getElementById('grid-button')
+const gridButton = document.getElementById('grid-button');
 
-gridButton.addEventListener('click', () => deleteGrid());
+gridButton.addEventListener('click', () => updateGrid());
 
-function createGrid(){
-  for (let row = 0; row < 16; row++){
+function createGrid(width = 16, height = 16){
+  for (row = 0; row < height; row++){
     const cellRow = document.createElement('div');
     cellRow.classList.add('cell-row');
-    for (let column = 0; column < 16; column++){
+    for (col = 0; col < width; col++){
       const cell = document.createElement('div');
       cell.classList.add('grid-cell');
       cell.addEventListener('mouseenter', () => changeBackgroundColor(cell)); 
@@ -26,4 +26,17 @@ function deleteGrid(){
     gridContainer.removeChild(gridContainer.firstChild);
   }
 }
+
+function getSquares(){
+  const width = Math.min(100, parseInt(prompt("Width (in squares):")));
+  const height = Math.min(100, parseInt(prompt("Height (in squares):")));
+  return {width, height};
+}
+
+function updateGrid(){
+  deleteGrid();
+  const dim = getSquares();
+  createGrid(dim.width, dim.height);
+}
+
 createGrid();
