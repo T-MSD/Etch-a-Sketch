@@ -1,15 +1,23 @@
+const GRIDWIDTH = 1000;
+const GRIDHEIGHT = 1000;
+
 const gridContainer = document.getElementById('grid-container'); 
 const gridButton = document.getElementById('grid-button');
 
 gridButton.addEventListener('click', () => updateGrid());
 
 function createGrid(width = 16, height = 16){
+  gridWidth = GRIDWIDTH / width;
+  gridHeight = GRIDHEIGHT / height;
+
   for (row = 0; row < height; row++){
     const cellRow = document.createElement('div');
     cellRow.classList.add('cell-row');
     for (col = 0; col < width; col++){
       const cell = document.createElement('div');
       cell.classList.add('grid-cell');
+      cell.style.width = String(gridWidth) + 'px';
+      cell.style.height = String(gridHeight) + 'px'
       cell.addEventListener('mouseenter', () => changeBackgroundColor(cell)); 
       cellRow.appendChild(cell);
     }
