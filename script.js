@@ -27,6 +27,13 @@ function createGrid(width = 16, height = 16){
 
 function changeBackgroundColor(cell){
   cell.classList.add('grid-cell-hover');
+  if (cell.style.backgroundColor){
+    cell.style.opacity = 0.5;
+  }
+  else {
+    color = getRandomHexColor();
+    cell.style.backgroundColor = color;
+  }
 }
 
 function deleteGrid(){
@@ -45,6 +52,11 @@ function updateGrid(){
   deleteGrid();
   const dim = getSquares();
   createGrid(dim.width, dim.height);
+}
+
+function getRandomHexColor() {
+  const hex = Math.floor(Math.random() * 16777215).toString(16); // Generate random hex value
+  return "#" + hex.padStart(6, '0'); // Ensure 6 digits with leading zeros
 }
 
 createGrid();
