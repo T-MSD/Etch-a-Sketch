@@ -60,6 +60,5 @@ body{
 } 
 
 .grid-cell-hover {
-  opacity: 1;
   border: 1px solid black;
 }

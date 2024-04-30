@@ -16,9 +16,10 @@ function createGrid(width = 16, height = 16){
     for (col = 0; col < width; col++){
       const cell = document.createElement('div');
       cell.classList.add('grid-cell');
+      cell.style.opacity = 1.0;
       cell.style.width = String(gridWidth) + 'px';
       cell.style.height = String(gridHeight) + 'px'
-      cell.addEventListener('mouseenter', () => changeBackgroundColor(cell)); 
+      cell.addEventListener('mouseenter', () => changeBackgroundColor(cell));
       cellRow.appendChild(cell);
     }
     gridContainer.appendChild(cellRow);
@@ -27,14 +28,14 @@ function createGrid(width = 16, height = 16){
 
 function changeBackgroundColor(cell){
   cell.classList.add('grid-cell-hover');
-  if (cell.style.backgroundColor){
-    cell.style.opacity = 0.5;
-  }
-  else {
+  if (!cell.style.backgroundColor){
     color = getRandomHexColor();
     cell.style.backgroundColor = color;
   }
-}
+  else {
+    cell.style.backgroundColor = darkenColor(cell.style.backgroundColor);
+    }
+  }
 
 function deleteGrid(){
   while (gridContainer.firstChild) {
@@ -55,8 +56,22 @@ function updateGrid(){
 }
 
 function getRandomHexColor() {
-  const hex = Math.floor(Math.random() * 16777215).toString(16); // Generate random hex value
-  return "#" + hex.padStart(6, '0'); // Ensure 6 digits with leading zeros
+  const hex = Math.floor(Math.random() * 16777215).toString(16);
+  return "#" + hex.padStart(6, '0');
+}
+
+function darkenColor(color) {
+  const regex = /rgb\((\d+), (\d+), (\d+)\)/;
+  const match = color.match(regex);
+  const [_, r, g, b] = match;
+  red = parseInt(r);
+  green = parseInt(g);
+  blue = parseInt(b);
+  darkenFactor = 0.1;
+  const darkenedR = Math.max(0, Math.floor(red * (1 - darkenFactor)));
+  const darkenedG = Math.max(0, Math.floor(green * (1 - darkenFactor)));
+  const darkenedB = Math.max(0, Math.floor(blue * (1 - darkenFactor)));
+  return `rgb(${darkenedR}, ${darkenedG}, ${darkenedB})`;
 }
 
 createGrid();
