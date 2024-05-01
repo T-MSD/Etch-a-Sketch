@@ -1,4 +1,2 @@
-# How it Works
-
-The square color is randomized.
-Each interaction darkens the square by 10%. The objective is to achieve a completely black square.
+# Etch a Sketch
+Etch a sketch game created with HTML, CSS and JS.
