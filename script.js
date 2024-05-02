@@ -1,12 +1,39 @@
 const GRIDWIDTH = 1000;
 const GRIDHEIGHT = 1000;
 
+const mode = {
+  rainbow: true,
+  normal: false,
+};
+
+const dim = {
+  width: 0,
+  height: 0,
+};
+
 const gridContainer = document.getElementById('grid-container'); 
 const gridButton = document.getElementById('grid-button');
+const rainbowButton = document.getElementById('rainbow-button');
+const normalButton = document.getElementById('normal-button');
 
 gridButton.addEventListener('click', () => updateGrid());
+rainbowButton.addEventListener('click', () => {
+  mode.normal = false;
+  mode.rainbow = true;
+  deleteGrid();
+  createGrid(dim.width, dim.height);
+});
+normalButton.addEventListener('click', () => {
+  mode.normal = true;
+  mode.rainbow = false;
+  deleteGrid();
+  createGrid(dim.width, dim.height);
+});
 
 function createGrid(width = 16, height = 16){
+  dim.width = width;
+  dim.height = height;
+
   gridWidth = GRIDWIDTH / width;
   gridHeight = GRIDHEIGHT / height;
 
@@ -19,14 +46,14 @@ function createGrid(width = 16, height = 16){
       cell.style.opacity = 1.0;
       cell.style.width = String(gridWidth) + 'px';
       cell.style.height = String(gridHeight) + 'px'
-      cell.addEventListener('mouseenter', () => changeBackgroundColor(cell));
+      cell.addEventListener('mouseenter', () => getMode(cell));
       cellRow.appendChild(cell);
     }
     gridContainer.appendChild(cellRow);
   }
 }
 
-function changeBackgroundColor(cell){
+function changeBackgroundRandomColor(cell){
   cell.classList.add('grid-cell-hover');
   if (!cell.style.backgroundColor){
     color = getRandomHexColor();
@@ -37,6 +64,11 @@ function changeBackgroundColor(cell){
     }
   }
 
+function changeBackgroundBlack(cell){
+  cell.classList.add('grid-cell-hover');
+  cell.style.backgroundColor = 'black';
+}
+
 function deleteGrid(){
   while (gridContainer.firstChild) {
     gridContainer.removeChild(gridContainer.firstChild);
@@ -46,12 +78,13 @@ function deleteGrid(){
 function getSquares(){
   const width = Math.min(100, parseInt(prompt("Width (in squares):")));
   const height = Math.min(100, parseInt(prompt("Height (in squares):")));
-  return {width, height};
+  dim.width = width;
+  dim.height = height;
 }
 
 function updateGrid(){
   deleteGrid();
-  const dim = getSquares();
+  getSquares();
   createGrid(dim.width, dim.height);
 }
 
@@ -72,6 +105,15 @@ function darkenColor(color) {
   const darkenedG = Math.max(0, Math.floor(green * (1 - darkenFactor)));
   const darkenedB = Math.max(0, Math.floor(blue * (1 - darkenFactor)));
   return `rgb(${darkenedR}, ${darkenedG}, ${darkenedB})`;
+}
+
+function getMode(cell){
+  if (mode.rainbow){
+    return changeBackgroundRandomColor(cell);
+  }
+  if (mode.normal){
+    return changeBackgroundBlack(cell);
+  }
 }
 
 createGrid();
