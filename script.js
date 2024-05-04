@@ -1,5 +1,7 @@
-const GRIDWIDTH = 1000;
-const GRIDHEIGHT = 1000;
+const grid = {
+  width: 1000,
+  height: 1000,
+};
 
 const mode = {
   rainbow: true,
@@ -34,8 +36,8 @@ function createGrid(width = 16, height = 16){
   dim.width = width;
   dim.height = height;
 
-  gridWidth = GRIDWIDTH / width;
-  gridHeight = GRIDHEIGHT / height;
+  gridWidth = grid.width / width;
+  gridHeight = grid.height / height;
 
   for (row = 0; row < height; row++){
     const cellRow = document.createElement('div');
@@ -50,6 +52,7 @@ function createGrid(width = 16, height = 16){
       cellRow.appendChild(cell);
     }
     gridContainer.appendChild(cellRow);
+    gridContainer.classList.add('grid-container')
   }
 }
 
