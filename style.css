@@ -1,13 +1,26 @@
 body {
   margin: 0;
   padding: 0;
+  background-color:lightgray;
 }
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-family:'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: black;
+  padding-top: 50px;
+}
+
 .main-container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 100px;
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 50px auto;
 }
 
@@ -31,6 +44,7 @@ body {
 }
 
 .grid-cell {
+  background-color: white;
   box-sizing: border-box;
   border: 1px solid #ccc;
   display: inline-block;
@@ -42,6 +56,7 @@ body {
 
 button {
   background-color: green;
+  width: 150px;
   border: none;
   color: white;
   padding: 15px 32px;
