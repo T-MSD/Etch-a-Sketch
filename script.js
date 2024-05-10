@@ -15,23 +15,17 @@ const dim = {
 };
 
 const gridContainer = document.getElementById('grid-container'); 
-const gridButton = document.getElementById('grid-button');
-const rainbowButton = document.getElementById('rainbow-button');
-const normalButton = document.getElementById('normal-button');
-const eraserButton = document.getElementById('eraser-button');
+const buttons = [
+  document.getElementById('grid-button'),
+  document.getElementById('rainbow-button'),
+  document.getElementById('normal-button'),
+  document.getElementById('eraser-button'),
+];
 
-gridButton.addEventListener('click', () => updateGrid());
-eraserButton.addEventListener('click', () => getEraser());
-rainbowButton.addEventListener('click', () => {
-  m = getPreviousMode()
-  mode[m] = false;
-  mode.rainbow = true;
-});
-normalButton.addEventListener('click', () => {
-  m = getPreviousMode()
-  mode[m] = false;
-  mode.normal = true;
-});
+buttons[0].addEventListener('click', () => updateGrid());
+buttons[3].addEventListener('click', () => changeMode('eraser', buttons[3]));
+buttons[1].addEventListener('click', () => changeMode('rainbow', buttons[1]));
+buttons[2].addEventListener('click', () => changeMode('normal', buttons[2]));
 
 function createGrid(width = 16, height = 16){
   dim.width = width;
@@ -58,11 +52,11 @@ function createGrid(width = 16, height = 16){
 }
 
 function changeBackgroundRandomColor(cell){
-  if (!cell.style.backgroundColor){
+  if (!cell.style.backgroundColor || cell.style.backgroundColor == 'white'){
     color = getRandomHexColor();
     cell.style.backgroundColor = color;
   }
-  else {
+  else if (cell.style.backgroundColor != 'black'){
     cell.style.backgroundColor = darkenColor(cell.style.backgroundColor);
     }
   }
@@ -121,20 +115,6 @@ function getMode(cell) {
   }
 }
 
-function getEraser() {
-  if (!mode.eraser) {
-    m = getPreviousMode()
-    mode[m] = false;
-    mode.eraser = true;
-  }
-
-  else if (mode.eraser) {
-    mode.eraser = false;
-    m = getPreviousMode()
-    mode[m] = true;
-  }
-} 
-
 function erase(cell) {
   cell.style.backgroundColor = 'white';
   cell.style.border = 'border: 1px solid #ccc;'
@@ -148,6 +128,11 @@ function getPreviousMode() {
   }
 }
 
-
+// fazer uma funca que reduz a repeticao do codigo
+function changeMode(thisMode, button){
+  m = getPreviousMode()
+  mode[m] = false;
+  mode[thisMode] = true;
+}
 
 createGrid();
