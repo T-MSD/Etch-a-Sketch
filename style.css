@@ -50,10 +50,6 @@ body {
   display: inline-block;
 } 
 
-.grid-cell-hover {
-  border: 1px solid black;
-}
-
 button {
   background-color: white;
   width: 150px;

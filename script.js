@@ -23,16 +23,14 @@ const eraserButton = document.getElementById('eraser-button');
 gridButton.addEventListener('click', () => updateGrid());
 eraserButton.addEventListener('click', () => getEraser());
 rainbowButton.addEventListener('click', () => {
-  mode.normal = false;
+  m = getPreviousMode()
+  mode[m] = false;
   mode.rainbow = true;
-  deleteGrid();
-  createGrid(dim.width, dim.height);
 });
 normalButton.addEventListener('click', () => {
+  m = getPreviousMode()
+  mode[m] = false;
   mode.normal = true;
-  mode.rainbow = false;
-  deleteGrid();
-  createGrid(dim.width, dim.height);
 });
 
 function createGrid(width = 16, height = 16){
@@ -70,7 +68,6 @@ function changeBackgroundRandomColor(cell){
   }
 
 function changeBackgroundBlack(cell){
-  cell.classList.add('grid-cell-hover');
   cell.style.backgroundColor = 'black';
 }
 
@@ -127,18 +124,14 @@ function getMode(cell) {
 function getEraser() {
   if (!mode.eraser) {
     m = getPreviousMode()
-    mode.m = false;
+    mode[m] = false;
     mode.eraser = true;
-    console.log(m + ':' + mode.m);
-    console.log(mode.eraser);
   }
 
   else if (mode.eraser) {
     mode.eraser = false;
     m = getPreviousMode()
-    mode.m = true;
-    console.log(m + ':' + mode.m);
-    console.log(mode.eraser);
+    mode[m] = true;
   }
 } 
 
@@ -154,5 +147,7 @@ function getPreviousMode() {
     }
   }
 }
+
+
 
 createGrid();
