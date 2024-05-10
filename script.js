@@ -4,7 +4,7 @@ const grid = {
 };
 
 const mode = {
-  rainbow: true,
+  rainbow: false,
   normal: false,
   eraser: false,
 };
@@ -15,17 +15,17 @@ const dim = {
 };
 
 const gridContainer = document.getElementById('grid-container'); 
-const buttons = [
-  document.getElementById('grid-button'),
-  document.getElementById('rainbow-button'),
-  document.getElementById('normal-button'),
-  document.getElementById('eraser-button'),
-];
+const buttons = {
+  grid: document.getElementById('grid-button'),
+  rainbow: document.getElementById('rainbow-button'),
+  normal: document.getElementById('normal-button'),
+  eraser: document.getElementById('eraser-button'),
+};
 
-buttons[0].addEventListener('click', () => updateGrid());
-buttons[3].addEventListener('click', () => changeMode('eraser', buttons[3]));
-buttons[1].addEventListener('click', () => changeMode('rainbow', buttons[1]));
-buttons[2].addEventListener('click', () => changeMode('normal', buttons[2]));
+buttons['grid'].addEventListener('click', () => updateGrid());
+buttons['rainbow'].addEventListener('click', () => changeMode('rainbow', buttons['rainbow']));
+buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['normal']));
+buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
 
 function createGrid(width = 16, height = 16){
   dim.width = width;
@@ -49,6 +49,8 @@ function createGrid(width = 16, height = 16){
     gridContainer.appendChild(cellRow);
     gridContainer.classList.add('grid-container')
   }
+  mode['rainbow'] = true;
+  buttons['rainbow'].classList.add('selected');
 }
 
 function changeBackgroundRandomColor(cell){
@@ -79,6 +81,9 @@ function getSquares(){
 }
 
 function updateGrid(){
+  m = getPreviousMode()
+  mode[m] = false;
+  buttons[m].classList.remove('selected');
   deleteGrid();
   getSquares();
   createGrid(dim.width, dim.height);
@@ -128,11 +133,12 @@ function getPreviousMode() {
   }
 }
 
-// fazer uma funca que reduz a repeticao do codigo
 function changeMode(thisMode, button){
   m = getPreviousMode()
   mode[m] = false;
+  buttons[m].classList.remove('selected');
   mode[thisMode] = true;
+  button.classList.add('selected');
 }
 
 createGrid();

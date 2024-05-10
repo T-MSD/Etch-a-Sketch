@@ -50,6 +50,10 @@ body {
   display: inline-block;
 } 
 
+.selected {
+  background-color: lightblue;
+}
+
 button {
   background-color: white;
   width: 150px;
