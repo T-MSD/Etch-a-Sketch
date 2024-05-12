@@ -150,8 +150,72 @@ function displaySize(){
 }
 
 function resizeGrid(number){
-  grid.size = Math.min(100, grid.size + number);
+  const newSize = grid.size + number
+  if (grid.size < newSize){
+    grow(newSize);
+  }
+  else if (grid.size > newSize){
+    shrink(newSize);
+  }
   displaySize();
+}
+
+function grow(newSize){
+  if (newSize > 100){
+    return;
+  }
+  // Resize all existing cells
+  document.querySelectorAll('.grid-cell').forEach((cell) => {
+    cell.style.width = String(grid.width / newSize) + 'px';
+    cell.style.height = String(grid.width / newSize) + 'px';
+  });
+  
+  // Add a new row with new columns
+  const newRow = document.createElement('div');
+  newRow.classList.add('cell-row');
+  for (let i = 0; i < newSize - 1; i++) {
+    const newCell = document.createElement('div');
+    newCell.classList.add('grid-cell');
+    newCell.style.opacity = 1.0;
+    newCell.style.width = String(grid.width / newSize) + 'px';
+    newCell.style.height = String(grid.width / newSize) + 'px';
+    newCell.addEventListener('mouseenter', () => getMode(newCell));
+    newRow.appendChild(newCell);
+  }
+  gridContainer.appendChild(newRow);
+  
+  document.querySelectorAll('.cell-row').forEach((row) => {
+    const newCell = document.createElement('div');
+    newCell.classList.add('grid-cell');
+    newCell.style.opacity = 1.0;
+    newCell.style.width = String(grid.width / newSize) + 'px';
+    newCell.style.height = String(grid.width / newSize) + 'px';
+    newCell.addEventListener('mouseenter', () => getMode(newCell));
+    row.appendChild(newCell);
+  });
+
+  grid.size = newSize;
+}
+
+function shrink(newSize){
+  if (newSize < 1){
+    return
+  }
+  // Remove one column from each row
+  document.querySelectorAll('.cell-row').forEach((row) => {
+    row.removeChild(row.lastChild);
+  });
+
+  // Remove the last row
+  gridContainer.removeChild(gridContainer.lastChild);
+
+  // Resize all remaining cells
+  document.querySelectorAll('.grid-cell').forEach((cell) => {
+    cell.style.width = String(grid.width / newSize) + 'px';
+    cell.style.height = String(grid.width / newSize) + 'px';
+  });
+
+  grid.size = newSize;
 }
 
 createGrid();
