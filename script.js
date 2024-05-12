@@ -12,6 +12,7 @@ const mode = {
 
 const gridContainer = document.getElementById('grid-container'); 
 const displayDiv = document.getElementById('display-size');
+const colorPickerDiv = document.getElementById('colorpicker-div');
 const buttons = {
   grid: document.getElementById('grid-button'),
   rainbow: document.getElementById('rainbow-button'),
@@ -19,6 +20,7 @@ const buttons = {
   eraser: document.getElementById('eraser-button'),
   plus: document.getElementById('plus-button'),
   minus: document.getElementById('minus-button'),
+  colorPicker: document.getElementById('colorPicker'),
 };
 
 buttons['grid'].addEventListener('click', () => updateGrid());
@@ -27,6 +29,7 @@ buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['
 buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
 buttons['plus'].addEventListener('click', () => resizeGrid(1));
 buttons['minus'].addEventListener('click', () => resizeGrid(-1));
+buttons['colorPicker'].addEventListener('click', () => selectColor());
 
 function createGrid(number = 16){
   grid.size = number;
@@ -169,7 +172,6 @@ function grow(newSize){
     cell.style.width = String(grid.width / newSize) + 'px';
     cell.style.height = String(grid.width / newSize) + 'px';
   });
-  
   // Add a new row with new columns
   const newRow = document.createElement('div');
   newRow.classList.add('cell-row');
@@ -183,7 +185,7 @@ function grow(newSize){
     newRow.appendChild(newCell);
   }
   gridContainer.appendChild(newRow);
-  
+  // Cycle through existing rows and add a new column to each
   document.querySelectorAll('.cell-row').forEach((row) => {
     const newCell = document.createElement('div');
     newCell.classList.add('grid-cell');
@@ -193,7 +195,6 @@ function grow(newSize){
     newCell.addEventListener('mouseenter', () => getMode(newCell));
     row.appendChild(newCell);
   });
-
   grid.size = newSize;
 }
 
@@ -205,16 +206,13 @@ function shrink(newSize){
   document.querySelectorAll('.cell-row').forEach((row) => {
     row.removeChild(row.lastChild);
   });
-
   // Remove the last row
   gridContainer.removeChild(gridContainer.lastChild);
-
   // Resize all remaining cells
   document.querySelectorAll('.grid-cell').forEach((cell) => {
     cell.style.width = String(grid.width / newSize) + 'px';
     cell.style.height = String(grid.width / newSize) + 'px';
   });
-
   grid.size = newSize;
 }
 
