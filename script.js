@@ -1,17 +1,13 @@
 const grid = {
   width: 1000,
   height: 1000,
+  size: 0,
 };
 
 const mode = {
   rainbow: false,
   normal: false,
   eraser: false,
-};
-
-const dim = {
-  width: 0,
-  height: 0,
 };
 
 const gridContainer = document.getElementById('grid-container'); 
@@ -27,22 +23,20 @@ buttons['rainbow'].addEventListener('click', () => changeMode('rainbow', buttons
 buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['normal']));
 buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
 
-function createGrid(width = 16, height = 16){
-  dim.width = width;
-  dim.height = height;
+function createGrid(number = 16){
+  grid.size = number;
 
-  gridWidth = grid.width / width;
-  gridHeight = grid.height / height;
+  gridSize = grid.width / number;
 
-  for (row = 0; row < height; row++){
+  for (row = 0; row < number; row++){
     const cellRow = document.createElement('div');
     cellRow.classList.add('cell-row');
-    for (col = 0; col < width; col++){
+    for (col = 0; col < number; col++){
       const cell = document.createElement('div');
       cell.classList.add('grid-cell');
       cell.style.opacity = 1.0;
-      cell.style.width = String(gridWidth) + 'px';
-      cell.style.height = String(gridHeight) + 'px'
+      cell.style.width = String(gridSize) + 'px';
+      cell.style.height = String(gridSize) + 'px'
       cell.addEventListener('mouseenter', () => getMode(cell));
       cellRow.appendChild(cell);
     }
@@ -74,10 +68,8 @@ function deleteGrid(){
 }
 
 function getSquares(){
-  const width = Math.min(100, parseInt(prompt("Width (in squares):")));
-  const height = Math.min(100, parseInt(prompt("Height (in squares):")));
-  dim.width = width;
-  dim.height = height;
+  const size = Math.min(100, parseInt(prompt("Number of squares:")));
+  grid.size = size;
 }
 
 function updateGrid(){
@@ -86,7 +78,7 @@ function updateGrid(){
   buttons[m].classList.remove('selected');
   deleteGrid();
   getSquares();
-  createGrid(dim.width, dim.height);
+  createGrid(grid.size);
 }
 
 function getRandomHexColor() {
