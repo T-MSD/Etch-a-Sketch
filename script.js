@@ -20,7 +20,7 @@ const buttons = {
   eraser: document.getElementById('eraser-button'),
   plus: document.getElementById('plus-button'),
   minus: document.getElementById('minus-button'),
-  colorPicker: document.getElementById('colorPicker'),
+  color: document.getElementById('colorPicker'),
 };
 
 buttons['grid'].addEventListener('click', () => updateGrid());
@@ -29,7 +29,6 @@ buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['
 buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
 buttons['plus'].addEventListener('click', () => resizeGrid(1));
 buttons['minus'].addEventListener('click', () => resizeGrid(-1));
-buttons['colorPicker'].addEventListener('click', () => selectColor());
 
 function createGrid(number = 16){
   grid.size = number;
@@ -53,6 +52,7 @@ function createGrid(number = 16){
   }
   mode['rainbow'] = true;
   buttons['rainbow'].classList.add('selected');
+  colorPickerDiv.style.display = 'none'
   displaySize();
 }
 
@@ -66,8 +66,9 @@ function changeBackgroundRandomColor(cell){
     }
   }
 
-function changeBackgroundBlack(cell){
-  cell.style.backgroundColor = 'black';
+function changeBackgroundColor(cell){
+  const color = buttons['color'].value;
+  cell.style.backgroundColor = color;
 }
 
 function deleteGrid(){
@@ -120,7 +121,7 @@ function getMode(cell) {
     return changeBackgroundRandomColor(cell);
   }
   if (mode.normal){
-    return changeBackgroundBlack(cell);
+    return changeBackgroundColor(cell);
   }
   if (mode.eraser){
     return erase(cell);
@@ -145,6 +146,12 @@ function changeMode(thisMode, button){
   mode[m] = false;
   buttons[m].classList.remove('selected');
   mode[thisMode] = true;
+  if (!mode['normal']){
+    colorPickerDiv.style.display = 'none';
+  }
+  else {
+    colorPickerDiv.style.display = 'flex';
+  }
   button.classList.add('selected');
 }
 
