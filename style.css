@@ -28,6 +28,14 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
+.grid-size-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
 .other-buttons {
   display: flex;
   flex-direction: column;
@@ -73,6 +81,11 @@ body {
   font-size: 30px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.display-size {
+  font-size: 35px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
 }
 
 button {

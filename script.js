@@ -11,17 +11,22 @@ const mode = {
 };
 
 const gridContainer = document.getElementById('grid-container'); 
+const displayDiv = document.getElementById('display-size');
 const buttons = {
   grid: document.getElementById('grid-button'),
   rainbow: document.getElementById('rainbow-button'),
   normal: document.getElementById('normal-button'),
   eraser: document.getElementById('eraser-button'),
+  plus: document.getElementById('plus-button'),
+  minus: document.getElementById('minus-button'),
 };
 
 buttons['grid'].addEventListener('click', () => updateGrid());
 buttons['rainbow'].addEventListener('click', () => changeMode('rainbow', buttons['rainbow']));
 buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['normal']));
 buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
+buttons['plus'].addEventListener('click', () => resizeGrid(1));
+buttons['minus'].addEventListener('click', () => resizeGrid(-1));
 
 function createGrid(number = 16){
   grid.size = number;
@@ -45,6 +50,7 @@ function createGrid(number = 16){
   }
   mode['rainbow'] = true;
   buttons['rainbow'].classList.add('selected');
+  displaySize();
 }
 
 function changeBackgroundRandomColor(cell){
@@ -68,17 +74,23 @@ function deleteGrid(){
 }
 
 function getSquares(){
-  const size = Math.min(100, parseInt(prompt("Number of squares:")));
+  const input = prompt("Number of squares:");
+  if (input === null || input.trim() === "") {
+    return false;
+  }
+  const size = Math.min(100, parseInt(input));
   grid.size = size;
+  return true;
 }
 
 function updateGrid(){
-  m = getPreviousMode()
-  mode[m] = false;
-  buttons[m].classList.remove('selected');
-  deleteGrid();
-  getSquares();
-  createGrid(grid.size);
+  if (getSquares()){
+    m = getPreviousMode()
+    mode[m] = false;
+    buttons[m].classList.remove('selected');
+    deleteGrid();
+    createGrid(grid.size);
+  }
 }
 
 function getRandomHexColor() {
@@ -131,6 +143,15 @@ function changeMode(thisMode, button){
   buttons[m].classList.remove('selected');
   mode[thisMode] = true;
   button.classList.add('selected');
+}
+
+function displaySize(){
+  displayDiv.textContent = grid.size + ' x ' + grid.size;
+}
+
+function resizeGrid(number){
+  grid.size = Math.min(100, grid.size + number);
+  displaySize();
 }
 
 createGrid();
