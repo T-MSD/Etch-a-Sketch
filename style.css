@@ -104,7 +104,7 @@ body {
   font-size: 18px;
 }
 
-#colorPicker {
+#colorpicker {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -115,12 +115,12 @@ body {
   cursor: pointer;
 }
 
-#colorPicker::-webkit-color-swatch {
+#colorpicker::-webkit-color-swatch {
   border-radius: 50%;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-#colorPicker::-moz-color-swatch {
+#colorpicker::-moz-color-swatch {
   border-radius: 50%;
 }
 

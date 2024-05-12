@@ -6,7 +6,7 @@ const grid = {
 
 const mode = {
   rainbow: false,
-  normal: false,
+  color: false,
   eraser: false,
 };
 
@@ -16,25 +16,24 @@ const colorPickerDiv = document.getElementById('colorpicker-div');
 const buttons = {
   grid: document.getElementById('grid-button'),
   rainbow: document.getElementById('rainbow-button'),
-  normal: document.getElementById('normal-button'),
+  color: document.getElementById('color-button'),
   eraser: document.getElementById('eraser-button'),
   plus: document.getElementById('plus-button'),
   minus: document.getElementById('minus-button'),
-  color: document.getElementById('colorPicker'),
+  picker: document.getElementById('colorpicker'),
 };
 
 buttons['grid'].addEventListener('click', () => updateGrid());
 buttons['rainbow'].addEventListener('click', () => changeMode('rainbow', buttons['rainbow']));
-buttons['normal'].addEventListener('click', () => changeMode('normal', buttons['normal']));
+buttons['color'].addEventListener('click', () => changeMode('color', buttons['color']));
 buttons['eraser'].addEventListener('click', () => changeMode('eraser', buttons['eraser']));
 buttons['plus'].addEventListener('click', () => resizeGrid(1));
 buttons['minus'].addEventListener('click', () => resizeGrid(-1));
 
 function createGrid(number = 16){
   grid.size = number;
-
   gridSize = grid.width / number;
-
+  isMouseDown = false;
   for (row = 0; row < number; row++){
     const cellRow = document.createElement('div');
     cellRow.classList.add('cell-row');
@@ -44,7 +43,18 @@ function createGrid(number = 16){
       cell.style.opacity = 1.0;
       cell.style.width = String(gridSize) + 'px';
       cell.style.height = String(gridSize) + 'px'
-      cell.addEventListener('mouseenter', () => getMode(cell));
+      cell.addEventListener('mouseenter', () => {
+        if (isMouseDown){
+          getMode(cell)
+        }
+      });
+      cell.addEventListener('mousedown', () => {
+        isMouseDown = true;
+        getMode(cell);
+      });
+      cell.addEventListener('mouseup', () => {
+        isMouseDown = false;
+      });
       cellRow.appendChild(cell);
     }
     gridContainer.appendChild(cellRow);
@@ -67,7 +77,7 @@ function changeBackgroundRandomColor(cell){
   }
 
 function changeBackgroundColor(cell){
-  const color = buttons['color'].value;
+  const color = buttons['picker'].value;
   cell.style.backgroundColor = color;
 }
 
@@ -120,7 +130,7 @@ function getMode(cell) {
   if (mode.rainbow){
     return changeBackgroundRandomColor(cell);
   }
-  if (mode.normal){
+  if (mode.color){
     return changeBackgroundColor(cell);
   }
   if (mode.eraser){
@@ -146,7 +156,7 @@ function changeMode(thisMode, button){
   mode[m] = false;
   buttons[m].classList.remove('selected');
   mode[thisMode] = true;
-  if (!mode['normal']){
+  if (!mode['color']){
     colorPickerDiv.style.display = 'none';
   }
   else {
